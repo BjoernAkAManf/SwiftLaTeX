@@ -1,0 +1,40 @@
+VERSION 0.6
+FROM emscripten/emsdk:3.1.14
+ARG DEBUGFLAGS=-O3
+ARG CFLAGS=${DEBUGFLAGS} -DHAVE_ZLIB -s USE_LIBPNG=1 -fno-rtti -fno-exceptions
+
+compile-app:
+    COPY COMPILE_LIST /F
+    COPY *.c ./
+    COPY *.h ./
+    FOR file IN $(sed '/^\s*#/d' /F | sed 's/\r//g')
+        DO +COMPILE_C --src=$file
+    END
+
+link:
+    FROM +compile-app
+    ARG LDFLAGS=${DEBUGFLAGS} \
+                --js-library library.js \
+                -s USE_LIBPNG=1 --pre-js pre.js \
+                -s NO_EXIT_RUNTIME=1 \
+                -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -fno-rtti -fno-exceptions
+
+    COPY library.js ./
+    COPY pre.js ./
+    RUN em++ -o swiftlatexdvipdfm.js ${LDFLAGS} -s EXPORTED_FUNCTIONS='["_compilePDF", "_setMainEntry", "_main"]' $(ls *.o)
+    SAVE ARTIFACT swiftlatexdvipdfm.js AS LOCAL swiftlatexdvipdfm.js
+    SAVE ARTIFACT swiftlatexdvipdfm.wasm AS LOCAL swiftlatexdvipdfm.wasm
+
+compile-tsc:
+    FROM node:18-alpine
+    RUN npm install -g typescript
+    COPY DvipdfmxEngine.tsx ./
+    COPY tsconfig.json ./
+    RUN npx tsc
+    RUN sed -i '/^\"use\ strict\";/a var exports = {};' DvipdfmxEngine.js
+    SAVE ARTIFACT DvipdfmxEngine.js AS LOCAL DvipdfmxEngine.js
+
+COMPILE_C:
+    COMMAND
+    ARG src
+    RUN emcc -c ${CFLAGS} -I. ${src}.c -o ${src}.o

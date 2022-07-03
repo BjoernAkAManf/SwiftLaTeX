@@ -1,0 +1,20 @@
+md5
+core-memory
+core-bridge
+#
+dvipdfmx-wasm
+dpx-agl         dpx-dvi        dpx-pdfdoc       dpx-spc_color     dpx-tt_aux
+dpx-bmpimage    dpx-dvipdfmx   dpx-pdfdraw      dpx-spc_dvipdfmx  dpx-tt_cmap
+dpx-cff         dpx-epdf       dpx-pdfencoding  dpx-spc_dvips     dpx-tt_glyf
+dpx-cff_dict    dpx-error      dpx-pdfencrypt   dpx-spc_html      dpx-tt_gsub
+dpx-cid         dpx-fontmap    dpx-pdffont      dpx-spc_misc      dpx-tt_post
+dpx-cidtype0    dpx-jp2image   dpx-pdfnames     dpx-spc_pdfm      dpx-tt_table
+dpx-cidtype2    dpx-jpegimage  dpx-pdfobj       dpx-spc_tpic      dpx-type0
+dpx-cmap        dpx-mem        dpx-pdfparse     dpx-spc_util      dpx-type1
+dpx-cmap_read   dpx-mfileio    dpx-pdfresource  dpx-spc_xtx       dpx-type1c
+dpx-cmap_write  dpx-mpost      dpx-pdfximage    dpx-specials      dpx-unicode
+dpx-cs_type2    dpx-numbers    dpx-pkfont       dpx-subfont       dpx-vf
+dpx-dpxconf     dpx-otl_conf   dpx-pngimage     dpx-t1_char
+dpx-dpxcrypt    dpx-otl_opt    dpx-pst          dpx-t1_load
+dpx-dpxfile     dpx-pdfcolor   dpx-pst_obj      dpx-tfm
+dpx-dpxutil     dpx-pdfdev     dpx-sfnt         dpx-truetype
